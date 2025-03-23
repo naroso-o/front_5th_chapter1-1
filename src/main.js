@@ -21,7 +21,8 @@ const render = () => {
   document.body.innerHTML = App();
 
   logoutEvent();
-  navigationEvent();
+  loginEvent();
+  updateProfileEvent();
 };
 
 function logoutEvent() {
@@ -37,7 +38,7 @@ function logoutEvent() {
   });
 }
 
-function navigationEvent() {
+function loginEvent() {
   const form = document.getElementById("login-form");
   if (!form) return;
   form.addEventListener("submit", (e) => {
@@ -59,6 +60,29 @@ function navigationEvent() {
       // 2. Main Page로 라우트
       history.pushState(null, "", "/");
       render();
+    }
+  });
+}
+
+function updateProfileEvent() {
+  const form = document.getElementById("profile-form");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    if (e.target.id === "profile-form") {
+      e.preventDefault(); // 폼 제출 시 새로고침 방지
+
+      const usernameInput = document.getElementById("username").value;
+      const emailInput = document.getElementById("email").value;
+      const bioInput = document.getElementById("bio").value;
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          username: usernameInput,
+          email: emailInput,
+          bio: bioInput,
+        }),
+      );
     }
   });
 }
