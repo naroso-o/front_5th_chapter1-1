@@ -1,7 +1,7 @@
-import Header from "../layout/Header";
-import Footer from "../layout/Footer";
-import { MOCK_POSTS } from "../mock/posts";
-import Post from "../components/post";
+import Header from "@/layout/header";
+import Footer from "@/layout/footer";
+import { MOCK_POSTS } from "@/mock/posts";
+import Post from "@/components/post";
 
 const MainPage = () => /* HTML */ `
   <div id="root">

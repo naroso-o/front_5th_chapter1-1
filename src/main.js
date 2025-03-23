@@ -1,7 +1,7 @@
-import ProfilePage from "./pages/profile-page";
-import LoginPage from "./pages/login-page";
-import MainPage from "./pages/main-page";
-import ErrorPage from "./pages/error-page";
+import ProfilePage from "@/pages/profile-page";
+import LoginPage from "@/pages/login-page";
+import MainPage from "@/pages/main-page";
+import ErrorPage from "@/pages/error-page";
 
 const App = () => {
   if (location.pathname === "/login") {
