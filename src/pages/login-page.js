@@ -1,4 +1,11 @@
 const LoginPage = () => {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const isLoggedIn = !!user;
+
+  if (isLoggedIn) {
+    window.location.href = "/";
+  }
+
   return /* HTML */ `
     <div id="root">
       <main class="bg-gray-100 flex items-center justify-center min-h-screen">

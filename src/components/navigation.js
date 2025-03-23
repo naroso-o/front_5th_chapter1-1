@@ -3,7 +3,7 @@ const NavigationMenu = ({ id, href, label, onLoggedIn, onLoggedOut }) => {
   const isLoggedIn = !!user;
 
   const unselectedStyle = "text-gray-600";
-  const selectedStyle = "text-blue-600";
+  const selectedStyle = "text-blue-600 font-bold";
   const iseSelected = location.pathname === href;
 
   const isVisible = (isLoggedIn && onLoggedIn) || (!isLoggedIn && onLoggedOut);
