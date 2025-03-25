@@ -1,17 +1,40 @@
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
+import router from "../router";
+import LoginPage from "./login-page";
 
 const ProfilePage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
-  const { username, email, bio } = user;
   const isLoggedIn = !!user;
 
   if (!isLoggedIn) {
-    window.location.href = "/login";
+    router.navigateTo("/login");
+    return LoginPage(); // TODO: navigation 이상 처리 보완
   }
 
+  setTimeout(() => {
+    const form = document.getElementById("profile-form");
+    if (!form) return;
+    form.addEventListener("submit", (e) => {
+      if (e.target.id === "profile-form") {
+        e.preventDefault(); // 폼 제출 시 새로고침 방지
+        const usernameInput = document.getElementById("username").value;
+        const emailInput = document.getElementById("email").value;
+        const bioInput = document.getElementById("bio").value;
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            username: usernameInput,
+            email: emailInput,
+            bio: bioInput,
+          }),
+        );
+      }
+    });
+  }, 0);
+
   return /* HTML */ `
-    <div id="root">
+    <div>
       <div class="bg-gray-100 min-h-screen flex justify-center">
         <div class="max-w-md w-full">
           ${Header()}
@@ -31,7 +54,7 @@ const ProfilePage = () => {
                     type="text"
                     id="username"
                     name="username"
-                    value="${username}"
+                    value="${user?.username}"
                     class="w-full p-2 border rounded"
                   />
                 </div>
@@ -45,7 +68,7 @@ const ProfilePage = () => {
                     type="email"
                     id="email"
                     name="email"
-                    value="${email}"
+                    value="${user?.email}"
                     class="w-full p-2 border rounded"
                   />
                 </div>
@@ -61,7 +84,7 @@ const ProfilePage = () => {
                     rows="4"
                     class="w-full p-2 border rounded"
                   >
-${bio}</textarea
+${user?.bio}</textarea
                   >
                 </div>
                 <button

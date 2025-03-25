@@ -1,13 +1,34 @@
+import router from "../router";
+
 const LoginPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isLoggedIn = !!user;
 
   if (isLoggedIn) {
-    window.location.href = "/";
+    router.navigateTo("/");
+    return null;
   }
 
+  // setTimeout: DOM이 body에 들어간 후 이벤트를 바인딩하는 것을 보장
+  setTimeout(() => {
+    const form = document.getElementById("login-form");
+    if (!form) return;
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value || "";
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username, email: "", bio: "" }),
+      );
+
+      router.navigateTo("/");
+    });
+  }, 0);
+
   return /* HTML */ `
-    <div id="root">
+    <div>
       <main class="bg-gray-100 flex items-center justify-center min-h-screen">
         <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
           <h1 class="text-2xl font-bold text-center text-blue-600 mb-8">

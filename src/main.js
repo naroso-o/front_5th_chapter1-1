@@ -1,94 +1,45 @@
 import ProfilePage from "@/pages/profile-page";
 import LoginPage from "@/pages/login-page";
 import MainPage from "@/pages/main-page";
-import ErrorPage from "@/pages/error-page";
+import router from "./router";
 
-const App = () => {
-  if (location.pathname === "/login") {
-    return LoginPage();
+router.addRoute("/login", LoginPage);
+router.addRoute("/profile", ProfilePage);
+router.addRoute("/", MainPage);
+
+router.navigateTo(location.pathname);
+
+// 이벤트는 렌더링 후 일괄 등록
+router.setAfterRender(() => {
+  const loginForm = document.getElementById("login-form");
+  if (loginForm) {
+    loginForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const inputEl = document.getElementById("username");
+      const username = inputEl?.value || "";
+      localStorage.setItem(
+        "user",
+        JSON.stringify({ username, email: "", bio: "" }),
+      );
+      router.navigateTo("/");
+    });
   }
-  if (location.pathname === "/profile") {
-    return ProfilePage();
-  }
 
-  if (location.pathname === "/") {
-    return MainPage();
-  }
-  return ErrorPage();
-};
-
-const render = () => {
-  document.body.innerHTML = App();
-
-  logoutEvent();
-  loginEvent();
-  updateProfileEvent();
-};
-
-function logoutEvent() {
-  const button = document.getElementById("logout");
-  button?.addEventListener("click", (e) => {
+  const logout = document.getElementById("logout");
+  logout?.addEventListener("click", (e) => {
     e.preventDefault();
-    // 1. local storage에 사용자 정보 삭제
     localStorage.removeItem("user");
-
-    // 2. Main Page로 라우트
-    history.pushState(null, "", "/login");
-    render();
+    router.navigateTo("/login");
   });
-}
 
-function loginEvent() {
-  const form = document.getElementById("login-form");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    if (e.target.id === "login-form") {
-      e.preventDefault(); // 폼 제출 시 새로고침 방지
-
-      const userIdInput = document.getElementById("username").value;
-
-      // 1. local storage에 사용자 정보 세팅
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          username: userIdInput,
-          email: "",
-          bio: "",
-        }),
-      );
-
-      // 2. Main Page로 라우트
-      history.pushState(null, "", "/");
-      render();
-    }
-  });
-}
-
-function updateProfileEvent() {
-  const form = document.getElementById("profile-form");
-  if (!form) return;
-  form.addEventListener("submit", (e) => {
-    if (e.target.id === "profile-form") {
-      e.preventDefault(); // 폼 제출 시 새로고침 방지
-
-      const usernameInput = document.getElementById("username").value;
-      const emailInput = document.getElementById("email").value;
-      const bioInput = document.getElementById("bio").value;
-
-      localStorage.setItem(
-        "user",
-        JSON.stringify({
-          username: usernameInput,
-          email: emailInput,
-          bio: bioInput,
-        }),
-      );
-    }
-  });
-}
-
-window.addEventListener("popstate", () => {
-  render();
+  const profileForm = document.getElementById("profile-form");
+  if (profileForm) {
+    profileForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const bio = document.getElementById("bio").value;
+      localStorage.setItem("user", JSON.stringify({ username, email, bio }));
+    });
+  }
 });
-
-render();
