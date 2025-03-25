@@ -1,5 +1,3 @@
-import router from "../router";
-
 const NavigationMenu = ({ id, href, label, onLoggedIn, onLoggedOut }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isLoggedIn = !!user;
@@ -46,19 +44,6 @@ const Navigation = () => {
       onLoggedOut: true,
     },
   ];
-
-  setTimeout(() => {
-    const button = document.getElementById("logout");
-    button?.addEventListener("click", (e) => {
-      e.preventDefault();
-      // 1. local storage에 사용자 정보 삭제
-      localStorage.removeItem("user");
-      console.log(localStorage.getItem("user"));
-
-      // 2. Main Page로 라우트
-      router.navigateTo("/login");
-    });
-  });
 
   return `
       <nav class="bg-white shadow-md p-2 sticky top-14">

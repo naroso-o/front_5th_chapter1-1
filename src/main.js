@@ -15,11 +15,10 @@ router.setAfterRender(() => {
   if (loginForm) {
     loginForm.addEventListener("submit", (e) => {
       e.preventDefault();
-      const inputEl = document.getElementById("username");
-      const username = inputEl?.value || "";
+      const username = document.getElementById("username")?.value;
       localStorage.setItem(
         "user",
-        JSON.stringify({ username, email: "", bio: "" }),
+        JSON.stringify({ username: username || "", email: "", bio: "" }),
       );
       router.navigateTo("/");
     });

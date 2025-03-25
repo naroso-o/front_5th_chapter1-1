@@ -10,17 +10,22 @@ const LoginPage = () => {
   }
 
   // setTimeout: DOM이 body에 들어간 후 이벤트를 바인딩하는 것을 보장
+  // TODO: e2e 테스트에서는 이 이벤트만 바라봄, main.js에 등록한 이벤트 이후라서
+  // user를 localStorage에서 가져와서 넣어줘야하는데 그 순서의 이유는 아직 잘 모름.
   setTimeout(() => {
     const form = document.getElementById("login-form");
     if (!form) return;
 
     form.addEventListener("submit", (e) => {
       e.preventDefault();
-      const username = document.getElementById("username").value || "";
+      const user = JSON.parse(localStorage.getItem("user"));
+      const username = user
+        ? user.username
+        : document.getElementById("username")?.value;
 
       localStorage.setItem(
         "user",
-        JSON.stringify({ username, email: "", bio: "" }),
+        JSON.stringify({ username: username || "", email: "", bio: "" }),
       );
 
       router.navigateTo("/");
@@ -52,7 +57,7 @@ const LoginPage = () => {
               />
             </div>
             <button
-              id="login-button"
+              id="login"
               type="submit"
               class="w-full bg-blue-600 text-white p-2 rounded font-bold"
             >

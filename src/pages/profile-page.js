@@ -12,6 +12,8 @@ const ProfilePage = () => {
     return LoginPage(); // TODO: navigation 이상 처리 보완
   }
 
+  // setTimeout: DOM이 body에 들어간 후 이벤트를 바인딩하는 것을 보장
+  // e2e 테스트용?
   setTimeout(() => {
     const form = document.getElementById("profile-form");
     if (!form) return;
