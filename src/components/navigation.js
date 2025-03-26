@@ -11,7 +11,7 @@ const NavigationMenu = ({ id, href, label, onLoggedIn, onLoggedOut }) => {
   return /* HTML */ isVisible
     ? `
     <li>
-      <a id=${id} href=${href} class=${iseSelected ? selectedStyle : unselectedStyle}
+      <a id=${id} href=${href} class="${iseSelected ? selectedStyle : unselectedStyle}"
         >${label}</a
       >
     </li>

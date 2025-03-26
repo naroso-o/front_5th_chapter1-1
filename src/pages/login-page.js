@@ -1,4 +1,5 @@
 import router from "../router";
+import MainPage from "./main-page";
 
 const LoginPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
@@ -6,7 +7,7 @@ const LoginPage = () => {
 
   if (isLoggedIn) {
     router.navigateTo("/");
-    return null;
+    return MainPage(); // TODO: navigation 이상 처리 보완
   }
 
   // setTimeout: DOM이 body에 들어간 후 이벤트를 바인딩하는 것을 보장
