@@ -1,6 +1,7 @@
+import router from "../router";
+import hashRouter from "../hashRouter";
 import Header from "@/layout/header";
 import Footer from "@/layout/footer";
-import router from "../router";
 import LoginPage from "./login-page";
 
 const ProfilePage = () => {
@@ -8,7 +9,12 @@ const ProfilePage = () => {
   const isLoggedIn = !!user;
 
   if (!isLoggedIn) {
-    router.navigateTo("/login");
+    const hash = window.location.hash;
+    if (hash) {
+      hashRouter.navigateTo("#/login");
+    } else {
+      router.navigateTo("/login");
+    }
     return LoginPage(); // TODO: navigation 이상 처리 보완
   }
 

@@ -2,16 +2,29 @@ const NavigationMenu = ({ id, href, label, onLoggedIn, onLoggedOut }) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isLoggedIn = !!user;
 
+  const hash = window.location.hash;
+
   const unselectedStyle = "text-gray-600";
   const selectedStyle = "text-blue-600 font-bold";
-  const iseSelected = location.pathname === href;
+
+  let formattedHref = href;
+  if (hash) {
+    formattedHref = `#${href}`;
+  }
+
+  let iseSelected = false;
+  if (hash) {
+    iseSelected = location.hash == formattedHref;
+  } else {
+    iseSelected = location.pathname === href;
+  }
 
   const isVisible = (isLoggedIn && onLoggedIn) || (!isLoggedIn && onLoggedOut);
 
   return /* HTML */ isVisible
     ? `
     <li>
-      <a id=${id} href=${href} class="${iseSelected ? selectedStyle : unselectedStyle}"
+      <a id=${id} href="${formattedHref}" class="${iseSelected ? selectedStyle : unselectedStyle}"
         >${label}</a
       >
     </li>

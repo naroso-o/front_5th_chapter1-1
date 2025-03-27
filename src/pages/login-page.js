@@ -1,19 +1,26 @@
 import router from "../router";
+import hashRouter from "../hashRouter";
 import MainPage from "./main-page";
 
 const LoginPage = () => {
   const user = JSON.parse(localStorage.getItem("user"));
   const isLoggedIn = !!user;
 
+  const hash = window.location.hash;
   if (isLoggedIn) {
-    router.navigateTo("/");
-    return MainPage(); // TODO: navigation 이상 처리 보완
+    if (hash) {
+      hashRouter.navigateTo("#/");
+    } else {
+      router.navigateTo("/");
+      return MainPage(); // TODO: navigation 이상 처리 보완
+    }
   }
 
   // setTimeout: DOM이 body에 들어간 후 이벤트를 바인딩하는 것을 보장
   // TODO: e2e 테스트에서는 이 이벤트만 바라봄, main.js에 등록한 이벤트 이후라서
   // user를 localStorage에서 가져와서 넣어줘야하는데 그 순서의 이유는 아직 잘 모름.
   setTimeout(() => {
+    const hash = location.hash;
     const form = document.getElementById("login-form");
     if (!form) return;
 
@@ -28,8 +35,11 @@ const LoginPage = () => {
         "user",
         JSON.stringify({ username: username || "", email: "", bio: "" }),
       );
-
-      router.navigateTo("/");
+      if (hash) {
+        hashRouter.navigateTo("#/");
+      } else {
+        router.navigateTo("/");
+      }
     });
   }, 0);
 
